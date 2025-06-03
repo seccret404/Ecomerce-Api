@@ -1,10 +1,12 @@
-package models
+	package models
 
-import "gorm.io/gorm"
+	import "gorm.io/gorm"
 
-type CartItem struct {
-	gorm.Model
-	ProductID uint
-	Quantity	int
-	Product	Product `gorm:"foreignKey:ProductID"`
-}
+	type CartItem struct {
+		gorm.Model
+		ProductID uint
+		Quantity	int
+		CartID uint
+
+		Product Product `gorm:"foreignKey:ProductID"` //didefenisikan apabila perlu preload
+	}

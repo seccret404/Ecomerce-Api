@@ -8,6 +8,6 @@ type Product struct {
 	Price	string
 	Quantity	uint
 	Image	string
-	CartItems	[]CartItem `gorm:"foreginKey:ProductID"`
+	CartItems	[]CartItem `gorm:"foreignKey:ProductID"`
 
 }

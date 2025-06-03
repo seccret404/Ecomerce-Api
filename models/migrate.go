@@ -5,6 +5,7 @@ import "github.com/seccret404/Ecomerce-Api/config"
 func MigateALL() {
 	err := config.DB.AutoMigrate(
 		&Product{},
+		&Cart{},
 		&CartItem{},
 	)
 
