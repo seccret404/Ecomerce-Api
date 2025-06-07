@@ -46,10 +46,28 @@ func GetProductService()([]models.Product, error){
 }
 
 func GetByIdProductService(id string)(*models.Product, error){
+	ctx := context.Background()
 	var product models.Product
+
+	cacheKey := "product_" + id
+	cached, err := config.RedisClient.Get(ctx, cacheKey).Result()
+	if err != nil {
+		//unmarsal
+		if err := json.Unmarshal([]byte(cached), &product); err == nil {
+            return &product, nil
+        }
+	}
+
+
 	if err := config.DB.First(&product, id).Error; err != nil{
 		return nil, err
 	}
+
+	jsonData, err := json.Marshal(product)
+	if err != nil{
+		config.RedisClient.Set(ctx, cacheKey, jsonData, time.Hour)
+	}
+
 	return &product, nil
 }
 
